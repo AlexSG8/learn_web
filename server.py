@@ -1,19 +1,14 @@
-from flask import Flask
+from flask import Flask, render_template
 from weather import weather_by_city
+from python_org_news import get_news
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    weather = weather_by_city('Samara,Russia')
-    if weather:
-
-        return f'<img src={weather["weatherIconUrl"][0]["value"]}>\n' \
-               f'Температура воздуха:{weather["temp_C"]}\n' \
-               f'Ощущается как {weather["FeelsLikeC"]}'
-    else:
-        return "Сервис погоды временно не доступен."
+    return render_template('index.html', news_list=get_news(), page_title='Новости Python',
+                           weather=weather_by_city('Samara,Russia'))
 
 
 if __name__ == '__main__':
