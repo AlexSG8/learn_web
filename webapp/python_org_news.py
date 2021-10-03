@@ -1,5 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
+from webapp.model import db, News
+
+
+def save_news(title, url, published):
+    news_exists = News.query.filter(News.url == url).count()
+    if not news_exists:
+        new_news = News(title=title, url=url, published=published)
+        db.session.add(new_news)
+        db.session.commit()
 
 
 def get_html(url):
@@ -12,27 +22,25 @@ def get_html(url):
         return False
 
 
-def get_python_news(html):
-    soup = BeautifulSoup(html, 'html.parser')
-    news_list = soup.find('ul', class_='list-recent-posts').findAll("li")
-    result_news = []
-    for news in news_list:
-        title = news.find('a').text
-        url = news.find('a')['href']
-        published = news.find('time').text
-        result_news.append({
-            "title": title,
-            "url": url,
-            "published": published,
-        })
-    return result_news
-
-
-def get_news(url="https://www.python.org/blogs/"):
+def get_python_news(url="https://www.python.org/blogs/"):
     html = get_html(url)
     if html:
-        news = get_python_news(html)
-        return news
+
+        soup = BeautifulSoup(html, 'html.parser')
+        news_list = soup.find('ul', class_='list-recent-posts').findAll("li")
+        for news in news_list:
+
+            title = news.find('a').text
+            url = news.find('a')['href']
+            published = news.find('time')
+
+            try:
+                published = datetime.strptime(published['datetime'], '%Y-%m-%d')
+            except(ValueError):
+                published = datetime.now()
+
+            save_news(title=title, url=url, published=published)
+
     return False
 
 
