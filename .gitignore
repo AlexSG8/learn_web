@@ -1,4 +1,4 @@
-settings.py
+webapp/config.py
 .env/
 .idea/
 __pycache__/

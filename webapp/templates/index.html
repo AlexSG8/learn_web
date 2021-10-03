@@ -23,9 +23,11 @@
                   {% endfor %}
               </div>
                   <div class="col-4">
-                      <h2> Погода </h2>
+                      <h2> Погода в {{ city }} </h2>
                       {% if weather %}
-                        Температура воздуха: {{ weather.temp_C }}, ощущается как {{ weather.FeelsLikeC }}
+                        Температура воздуха {{ weather.temp_C }},
+                        <br>
+                        Ощущается как {{ weather.FeelsLikeC }}
                       {% else %}
                         Сервис погоды временно недоступен
                       {% endif %}
