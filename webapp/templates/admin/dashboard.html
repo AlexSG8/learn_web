@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-8">
+      Привет, Admin!
+    </div>
+    <div class="col-4">
+  {% include 'weather.html' %}
+    </div>
+    <div class="col-4">
+    </div>
+</div>
+{% endblock %}

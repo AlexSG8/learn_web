@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-from webapp.model import db, News
-
+from webapp.news.models import News
+from webapp.db import db
 
 def save_news(title, url, published):
     news_exists = News.query.filter(News.url == url).count()

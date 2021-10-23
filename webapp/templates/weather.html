@@ -1,0 +1,10 @@
+<h2> Погода в {{ city }} </h2>
+{% if weather %}
+  <img src="{{ weather.weatherIconUrl.0.value }}">
+  <br>
+  Температура воздуха {{ weather.temp_C }} &deg;C
+  <br>
+  Ощущается как {{ weather.FeelsLikeC }} &deg;C
+{% else %}
+  Сервис погоды временно недоступен
+{% endif %}
